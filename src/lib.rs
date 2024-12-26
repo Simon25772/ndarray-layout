@@ -2,10 +2,13 @@
 #![deny(warnings, missing_docs)]
 
 /// An array layout allow N dimensions inlined.
-pub struct ArrayLayout<const N: usize = 2> {
+pub struct ArrayLayout<const N: usize> {
     ndim: usize,
     content: Union<N>,
 }
+
+unsafe impl<const N: usize> Send for ArrayLayout<N> {}
+unsafe impl<const N: usize> Sync for ArrayLayout<N> {}
 
 union Union<const N: usize> {
     ptr: NonNull<usize>,
