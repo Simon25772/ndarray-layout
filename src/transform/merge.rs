@@ -48,14 +48,13 @@ impl<const N: usize> ArrayLayout<N> {
             let mut pairs = zip(&shape[range.clone()], &strides[range.clone()]).collect::<Vec<_>>();
             pairs.sort_unstable_by_key(|(_, &s)| s.unsigned_abs());
 
-            let (&d, &s) = pairs[0];
+            let ((&d, &s), pairs) = pairs.split_first().unwrap();
             let mut d = d;
 
-            for i in 1..pairs.len() {
-                let (&l, &ls) = pairs[i - 1];
-                let (&r, &rs) = pairs[i];
-                if l == 1 || s == 1 || ls == rs * r as isize || rs == ls * l as isize {
-                    d *= r;
+            for (&d_, &s_) in pairs {
+                // 合并的维度长度若有 0 或 1 则不需要判断步长
+                if d <= 1 || d_ <= 1 || s_ == s * d as isize {
+                    d *= d_
                 } else {
                     return None;
                 }
