@@ -143,7 +143,7 @@ impl<const N: usize> ArrayLayout<N> {
 }
 
 mod transform;
-pub use transform::{BroadcastArg, IndexArg, SliceArg, Split, TileArg};
+pub use transform::{BroadcastArg, IndexArg, MergeArg, SliceArg, Split, TileArg};
 
 use std::{
     alloc::{alloc, dealloc, Layout},

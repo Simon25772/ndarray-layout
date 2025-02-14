@@ -8,6 +8,7 @@ mod transpose;
 
 pub use broadcast::BroadcastArg;
 pub use index::IndexArg;
+pub use merge::MergeArg;
 pub use slice::SliceArg;
 pub use split::Split;
 pub use tile::TileArg;
