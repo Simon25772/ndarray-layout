@@ -101,26 +101,36 @@ impl<const N: usize> ArrayLayout<N> {
                 push(shape[j], strides[j]);
             }
 
-            let mut pairs = zip(&shape[start..end], &strides[start..end]).collect::<Vec<_>>();
+            let mut pairs = Vec::with_capacity(len);
+            for (&d, &s) in zip(&shape[start..end], &strides[start..end]) {
+                match d {
+                    0 => todo!(),
+                    1 => {}
+                    _ => pairs.push((d, s)),
+                }
+            }
+            if pairs.is_empty() {
+                push(1, 0);
+                continue;
+            }
             match endian {
                 Some(Endian::BigEndian) => pairs.reverse(),
                 Some(Endian::LittleEndian) => {}
-                None => pairs.sort_unstable_by_key(|(_, &s)| s.unsigned_abs()),
+                None => pairs.sort_unstable_by_key(|(_, s)| s.unsigned_abs()),
             }
 
-            let ((&d, &s), pairs) = pairs.split_first().unwrap();
-            let mut d = d;
+            let ((d, s), pairs) = pairs.split_first().unwrap();
+            let mut d = *d;
 
-            for (&d_, &s_) in pairs {
-                // 合并的维度长度若有 0 或 1 则不需要判断步长
-                if d <= 1 || d_ <= 1 || s_ == s * d as isize {
+            for &(d_, s_) in pairs {
+                if s_ == s * d as isize {
                     d *= d_
                 } else {
                     return None;
                 }
             }
 
-            push(d, s);
+            push(d, *s);
             last_end = end;
         }
         for j in last_end..shape.len() {
@@ -129,4 +139,14 @@ impl<const N: usize> ArrayLayout<N> {
 
         Some(ans)
     }
+}
+
+#[test]
+fn test_merge() {
+    let layout = ArrayLayout::<3>::new(&[16, 1, 4], &[16, 768, 4], 0)
+        .merge_be(0, 2)
+        .unwrap();
+    assert_eq!(layout.shape(), &[16, 4]);
+    assert_eq!(layout.strides(), &[16, 4]);
+    assert_eq!(layout.offset(), 0);
 }
