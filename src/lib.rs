@@ -124,7 +124,49 @@ impl<const N: usize> ArrayLayout<N> {
         self.content().strides()
     }
 
-    /// Calculate the range of data in bytes to determine the location of the memory area that the tensor needs to access.
+    /// Calculates the number of elements in the tensor.
+    ///
+    /// ```rust
+    /// # use ndarray_layout::{Endian::BigEndian, ArrayLayout};
+    /// let layout = ArrayLayout::<4>::new_contiguous(&[2, 3, 4], BigEndian, 20);
+    /// assert_eq!(layout.num_elements(), 24);
+    /// ```
+    #[inline]
+    pub fn num_elements(&self) -> usize {
+        self.shape().iter().product()
+    }
+
+    /// Calculates the offset of element at the given `index`.
+    ///
+    /// ```rust
+    /// # use ndarray_layout::{Endian::BigEndian, ArrayLayout};
+    /// let layout = ArrayLayout::<4>::new_contiguous(&[2, 3, 4], BigEndian, 4);
+    /// assert_eq!(layout.element_offset(22, BigEndian), 88); // 88 <- (22 % 4 * 4) + (22 / 4 % 3 * 16) + (22 / 4 / 3 % 2 * 48)
+    /// ```
+    pub fn element_offset(&self, index: usize, endian: Endian) -> isize {
+        fn offset_forwards(
+            mut rem: usize,
+            shape: impl IntoIterator<Item = usize>,
+            strides: impl IntoIterator<Item = isize>,
+        ) -> isize {
+            let mut ans = 0;
+            for (d, s) in zip(shape, strides) {
+                ans += s * (rem % d) as isize;
+                rem /= d
+            }
+            ans
+        }
+
+        let shape = self.shape().iter().cloned();
+        let strides = self.strides().iter().cloned();
+        self.offset()
+            + match endian {
+                Endian::BigEndian => offset_forwards(index, shape.rev(), strides.rev()),
+                Endian::LittleEndian => offset_forwards(index, shape, strides),
+            }
+    }
+
+    /// Calculates the range of data in bytes to determine the location of the memory area that the tensor needs to access.
     pub fn data_range(&self) -> RangeInclusive<isize> {
         let content = self.content();
         let mut start = content.offset();
