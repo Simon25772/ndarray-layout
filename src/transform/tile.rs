@@ -1,4 +1,4 @@
-﻿use crate::{ArrayLayout, Endian};
+use crate::{ArrayLayout, Endian};
 use std::iter::zip;
 
 /// 分块变换参数。
@@ -91,13 +91,14 @@ impl<const N: usize> ArrayLayout<N> {
 
         for (i, (&d, &s)) in iter {
             match *args {
-                [TileArg {
-                    axis,
-                    endian,
-                    tiles,
-                }, ref tail @ ..]
-                    if axis == i =>
-                {
+                [
+                    TileArg {
+                        axis,
+                        endian,
+                        tiles,
+                    },
+                    ref tail @ ..,
+                ] if axis == i => {
                     match endian {
                         Endian::BigEndian => {
                             // tile   : [a,         b    , c]

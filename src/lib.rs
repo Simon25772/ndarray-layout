@@ -124,7 +124,7 @@ impl<const N: usize> ArrayLayout<N> {
         self.content().strides()
     }
 
-    /// Calculates the number of elements in the tensor.
+    /// Calculates the number of elements in the array.
     ///
     /// ```rust
     /// # use ndarray_layout::{Endian::BigEndian, ArrayLayout};
@@ -166,7 +166,7 @@ impl<const N: usize> ArrayLayout<N> {
             }
     }
 
-    /// Calculates the range of data in bytes to determine the location of the memory area that the tensor needs to access.
+    /// Calculates the range of data in bytes to determine the location of the memory area that the array needs to access.
     pub fn data_range(&self) -> RangeInclusive<isize> {
         let content = self.content();
         let mut start = content.offset();
@@ -188,10 +188,10 @@ mod transform;
 pub use transform::{BroadcastArg, IndexArg, MergeArg, SliceArg, Split, TileArg};
 
 use std::{
-    alloc::{alloc, dealloc, Layout},
+    alloc::{Layout, alloc, dealloc},
     iter::zip,
     ops::RangeInclusive,
-    ptr::{copy_nonoverlapping, NonNull},
+    ptr::{NonNull, copy_nonoverlapping},
     slice::from_raw_parts,
 };
 
