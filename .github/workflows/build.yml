@@ -26,10 +26,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Use beta toolchain
-        run: |
-          rustup toolchain install beta --component rustfmt clippy
-          rustup default beta
+      - name: Use latest toolchain
+        run: rustup update
 
       - name: Check format
         run: cargo fmt --check
@@ -44,6 +42,7 @@ jobs:
         run:
           cargo clippy
           --all-features
+          --all-targets
           --message-format=json | clippy-sarif | tee rust-clippy-results.sarif | sarif-fmt
         continue-on-error: true
 

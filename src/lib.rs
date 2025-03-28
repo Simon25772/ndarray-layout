@@ -184,6 +184,7 @@ impl<const N: usize> ArrayLayout<N> {
     }
 }
 
+mod fmt;
 mod transform;
 pub use transform::{BroadcastArg, IndexArg, MergeArg, SliceArg, Split, TileArg};
 
