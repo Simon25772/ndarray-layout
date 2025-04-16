@@ -124,6 +124,20 @@ impl<const N: usize> ArrayLayout<N> {
         self.content().strides()
     }
 
+    /// Copy data to another `ArrayLayout` with inline size `M`.
+    ///
+    /// ```rust
+    /// # use ndarray_layout::{Endian::BigEndian, ArrayLayout};
+    /// let layout = ArrayLayout::<4>::new_contiguous(&[3, 4], BigEndian, 0);
+    /// assert_eq!(size_of_val(&layout), (2 * 4 + 2) * size_of::<usize>());
+    ///
+    /// let layout = layout.to_inline_size::<2>();
+    /// assert_eq!(size_of_val(&layout), (2 * 2 + 2) * size_of::<usize>());
+    /// ```
+    pub fn to_inline_size<const M: usize>(&self) -> ArrayLayout<M> {
+        ArrayLayout::new(self.shape(), self.strides(), self.offset())
+    }
+
     /// Calculates the number of elements in the array.
     ///
     /// ```rust
