@@ -2,7 +2,9 @@
 use std::iter::zip;
 
 /// 索引变换参数。
+
 #[derive(Clone, PartialEq, Eq, Debug)]
+
 pub struct IndexArg {
     /// 索引的轴。
     pub axis: usize,
@@ -66,6 +68,7 @@ impl<const N: usize> ArrayLayout<N> {
 }
 
 #[test]
+
 fn test() {
     let layout = ArrayLayout::<1>::new(&[2, 3, 4], &[12, 4, 1], 0);
     let layout = layout.index(1, 2);

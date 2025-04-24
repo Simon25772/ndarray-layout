@@ -1,4 +1,4 @@
-#![doc = include_str!("../README.md")]
+# ![doc = include_str!("../README.md")]
 #![deny(warnings, missing_docs)]
 
 /// An array layout allow N dimensions inlined.
@@ -40,7 +40,9 @@ impl<const N: usize> Drop for ArrayLayout<N> {
 }
 
 /// 元信息存储顺序。
+
 #[derive(Clone, Copy, PartialEq, Eq, Hash, Debug)]
+
 pub enum Endian {
     /// 大端序，范围更大的维度在元信息中更靠前的位置。
     BigEndian,
@@ -57,7 +59,7 @@ impl<const N: usize> ArrayLayout<N> {
     /// assert_eq!(layout.offset(), 20);
     /// assert_eq!(layout.shape(), &[2, 3, 4]);
     /// assert_eq!(layout.strides(), &[12, -4, 1]);
-    /// ```
+    ///```
     pub fn new(shape: &[usize], strides: &[isize], offset: isize) -> Self {
         // check
         assert_eq!(
@@ -333,11 +335,13 @@ impl Content<true> {
 }
 
 #[inline]
+
 fn layout(ndim: usize) -> Layout {
     Layout::array::<usize>(1 + ndim * 2).unwrap()
 }
 
 #[test]
+
 fn test_new() {
     let layout = ArrayLayout::<4>::new(&[2, 3, 4], &[12, -4, 1], 20);
     assert_eq!(layout.offset(), 20);
@@ -347,9 +351,11 @@ fn test_new() {
 }
 
 #[test]
+
 fn test_new_different_length() {}
 
 #[test]
+
 fn test_new_contiguous_little_endian() {
     let layout = ArrayLayout::<4>::new_contiguous(&[2, 3, 4], Endian::LittleEndian, 4);
     assert_eq!(layout.offset(), 0);
@@ -358,6 +364,7 @@ fn test_new_contiguous_little_endian() {
 }
 
 #[test]
+
 fn test_new_contiguous_big_endian() {
     let layout = ArrayLayout::<4>::new_contiguous(&[2, 3, 4], Endian::LittleEndian, 4);
     assert_eq!(layout.offset(), 0);
@@ -367,11 +374,13 @@ fn test_new_contiguous_big_endian() {
 
 #[test]
 #[should_panic(expected = "shape and strides must have the same length")]
+
 fn test_new_invalid_shape_strides_length() {
     ArrayLayout::<4>::new(&[2, 3], &[12, -4, 1], 20);
 }
 
 #[test]
+
 fn test_to_inline_size() {
     let layout = ArrayLayout::<4>::new_contiguous(&[3, 4], Endian::BigEndian, 0);
     assert_eq!(size_of_val(&layout), (2 * 4 + 2) * size_of::<usize>());
@@ -380,24 +389,28 @@ fn test_to_inline_size() {
 }
 
 #[test]
+
 fn test_num_elements() {
     let layout = ArrayLayout::<4>::new_contiguous(&[2, 3, 4], Endian::BigEndian, 20);
     assert_eq!(layout.num_elements(), 24);
 }
 
 #[test]
+
 fn test_element_offset_little_endian() {
     let layout = ArrayLayout::<4>::new_contiguous(&[2, 3, 4], Endian::LittleEndian, 4);
     assert_eq!(layout.element_offset(22, Endian::LittleEndian), 88);
 }
 
 #[test]
+
 fn test_element_offset_big_endian() {
     let layout = ArrayLayout::<4>::new_contiguous(&[2, 3, 4], Endian::BigEndian, 4);
     assert_eq!(layout.element_offset(22, Endian::BigEndian), 88);
 }
 
 #[test]
+
 fn test_data_range_positive_strides() {
     let layout = ArrayLayout::<4>::new_contiguous(&[2, 3, 4], Endian::LittleEndian, 4);
     let range = layout.data_range();
@@ -405,6 +418,7 @@ fn test_data_range_positive_strides() {
 }
 
 #[test]
+
 fn test_data_range_mixed_strides() {
     let layout = ArrayLayout::<4>::new(&[2, 3, 4], &[12, -4, 0], 20);
     let range = layout.data_range();
@@ -412,6 +426,7 @@ fn test_data_range_mixed_strides() {
 }
 
 #[test]
+
 fn test_clone_and_eq() {
     let layout1 = ArrayLayout::<4>::new(&[2, 3, 4], &[12, -4, 1], 20);
     let layout2 = layout1.clone();
@@ -419,6 +434,7 @@ fn test_clone_and_eq() {
 }
 
 #[test]
+
 fn test_drop() {
     let layout = ArrayLayout::<4>::new(&[2, 3, 4], &[12, -4, 1], 20);
     drop(layout);
