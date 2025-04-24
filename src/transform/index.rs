@@ -86,10 +86,10 @@ fn test() {
     assert_eq!(layout.offset(), 20);
 
     let layout = ArrayLayout::<4>::new(&[2, 3, 4], &[12, -4, 1], 20);
-    let layout = layout.index_many(&[IndexArg{axis:0,
-        index:1},
-        IndexArg{axis:1,
-        index:2}]);
+    let layout = layout.index_many(&[
+        IndexArg { axis: 0, index: 1 },
+        IndexArg { axis: 1, index: 2 },
+    ]);
     assert_eq!(layout.shape(), &[4]);
     assert_eq!(layout.strides(), &[1]);
     assert_eq!(layout.offset(), 24);
