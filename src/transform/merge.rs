@@ -136,7 +136,6 @@ impl<const N: usize> ArrayLayout<N> {
             }
 
             push(d, *s);
-            
         }
         for j in last_end..shape.len() {
             push(shape[j], strides[j]);
@@ -148,13 +147,12 @@ impl<const N: usize> ArrayLayout<N> {
 
 #[test]
 fn test_merge_return_none() {
-    let layout = ArrayLayout::<3>::new(&[16, 4, 2], &[8, 4, 1], 0)
-        .merge_be(0, 3);
+    let layout = ArrayLayout::<3>::new(&[16, 4, 2], &[8, 4, 1], 0).merge_be(0, 3);
     assert!(layout.is_none());
 }
 
 #[test]
-fn test_merge_pairs_empyt(){
+fn test_merge_pairs_empyt() {
     let layout = ArrayLayout::<3>::new(&[1, 1, 1], &[1, 1, 1], 0)
         .merge_be(0, 2)
         .unwrap();
@@ -184,7 +182,7 @@ fn test_merge_le_example() {
 }
 
 #[test]
-fn test_merge_len_zero(){
+fn test_merge_len_zero() {
     let layout = ArrayLayout::<3>::new(&[4, 3, 2], &[1, 4, 12], 0);
     let merged_layout = layout.merge_le(0, 0).unwrap();
 

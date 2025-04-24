@@ -153,7 +153,7 @@ fn test_empty_tile() {
 }
 
 #[test]
-fn test_multiple_tiles(){
+fn test_multiple_tiles() {
     let layout = ArrayLayout::<3>::new(&[2, 3, 6], &[18, 6, 1], 0).tile_many(&[
         TileArg {
             axis: 0,
@@ -164,7 +164,7 @@ fn test_multiple_tiles(){
             axis: 2,
             endian: Endian::BigEndian,
             tiles: &[2, 3],
-        }
+        },
     ]);
     assert_eq!(layout.shape(), &[2, 1, 3, 2, 3]);
     assert_eq!(layout.strides(), &[18, 18, 6, 3, 1]);

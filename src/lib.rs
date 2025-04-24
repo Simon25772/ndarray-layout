@@ -60,7 +60,11 @@ impl<const N: usize> ArrayLayout<N> {
     /// ```
     pub fn new(shape: &[usize], strides: &[isize], offset: isize) -> Self {
         // check
-        assert_eq!(shape.len(),strides.len(),"shape and strides must have the same length");
+        assert_eq!(
+            shape.len(),
+            strides.len(),
+            "shape and strides must have the same length"
+        );
 
         let mut ans = Self::with_ndim(shape.len());
         let mut content = ans.content_mut();
@@ -178,7 +182,7 @@ impl<const N: usize> ArrayLayout<N> {
     }
 
     /// Calculates the range of data in bytes to determine the location of the memory area that the array needs to access.
-    /// 
+    ///
     /// ```rust
     /// # use ndarray_layout::ArrayLayout;
     /// let layout = ArrayLayout::<4>::new(&[2, 3, 4],&[12, -4, 1], 20);
@@ -193,7 +197,7 @@ impl<const N: usize> ArrayLayout<N> {
             use std::cmp::Ordering::{Equal, Greater, Less};
             let i = d as isize - 1;
             match s.cmp(&0) {
-                Equal => {},
+                Equal => {}
                 Less => start += s * i,
                 Greater => end += s * i,
             }
@@ -217,7 +221,7 @@ use std::{
 impl<const N: usize> ArrayLayout<N> {
     #[inline]
     fn ptr_allocated(&self) -> Option<NonNull<usize>> {
-        const { assert!(N > 0)}
+        const { assert!(N > 0) }
         // ndim>N则content是ptr,否则是元组
         if self.ndim > N {
             Some(unsafe { self.content.ptr })
@@ -275,7 +279,7 @@ impl<const MUT: bool> Content<MUT> {
         unsafe { from_raw_parts(self.ptr.as_ptr(), 1 + self.ndim * 2) }
     }
 
-    #[inline] 
+    #[inline]
     fn offset(&self) -> isize {
         unsafe { self.ptr.cast().read() }
     }
@@ -333,7 +337,6 @@ fn layout(ndim: usize) -> Layout {
     Layout::array::<usize>(1 + ndim * 2).unwrap()
 }
 
-
 #[test]
 fn test_new() {
     let layout = ArrayLayout::<4>::new(&[2, 3, 4], &[12, -4, 1], 20);
@@ -344,9 +347,7 @@ fn test_new() {
 }
 
 #[test]
-fn test_new_different_length(){
-
-}
+fn test_new_different_length() {}
 
 #[test]
 fn test_new_contiguous_little_endian() {
@@ -405,7 +406,7 @@ fn test_data_range_positive_strides() {
 
 #[test]
 fn test_data_range_mixed_strides() {
-    let layout = ArrayLayout::<4>::new(&[2, 3, 4],&[12, -4, 0], 20);
+    let layout = ArrayLayout::<4>::new(&[2, 3, 4], &[12, -4, 0], 20);
     let range = layout.data_range();
     assert_eq!(range, 12..=32);
 }

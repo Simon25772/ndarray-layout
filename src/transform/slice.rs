@@ -111,17 +111,20 @@ fn test_slice() {
     assert_eq!(layout.strides(), &[12, 4, 1]);
     assert_eq!(layout.offset(), 0);
 
-    let layout = ArrayLayout::<3>::new(&[2, 3, 4], &[12, 4, 1], 0).slice_many(&[SliceArg{
-        axis: 1,
-        start: 0,
-        step: 1,
-        len: 2,
-    },SliceArg{
-        axis: 2,
-        start: 0,
-        step: 1,    
-        len: 4,
-    }]);
+    let layout = ArrayLayout::<3>::new(&[2, 3, 4], &[12, 4, 1], 0).slice_many(&[
+        SliceArg {
+            axis: 1,
+            start: 0,
+            step: 1,
+            len: 2,
+        },
+        SliceArg {
+            axis: 2,
+            start: 0,
+            step: 1,
+            len: 4,
+        },
+    ]);
     assert_eq!(layout.shape(), &[2, 2, 4]);
     assert_eq!(layout.strides(), &[12, 4, 1]);
     assert_eq!(layout.offset(), 0);

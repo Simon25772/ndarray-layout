@@ -13,11 +13,13 @@ impl<const N: usize> ArrayLayout<N> {
         ptr: *const T,
     ) -> fmt::Result {
         match self.ndim() {
-            0 => {write!(f, "array<> = [{}]", unsafe {
+            0 => {
+                write!(f, "array<> = [{}]", unsafe {
                     ptr.byte_offset(self.offset()).read_unaligned()
                 })
             }
-            1 => {let &[n] = self.shape() else { unreachable!() };
+            1 => {
+                let &[n] = self.shape() else { unreachable!() };
                 let &[s] = self.strides() else { unreachable!() };
 
                 writeln!(f, "array<{n}>[")?;
@@ -30,7 +32,8 @@ impl<const N: usize> ArrayLayout<N> {
                 writeln!(f, "]")?;
                 Ok(())
             }
-            _ => {let mut title = "array<".to_string();
+            _ => {
+                let mut title = "array<".to_string();
                 for d in self.shape() {
                     title.push_str(&format!("{d}x"))
                 }
@@ -85,8 +88,6 @@ impl<const N: usize> ArrayLayout<N> {
     }
 }
 
-
-
 #[test]
 fn test() {
     const DATA: &[u8] = &[1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
@@ -112,7 +113,6 @@ fn test() {
     let tensor = Tensor(tensor.0.tile_be(0, &[2, 3]).tile_be(2, &[5, 2]));
     println!("{}", tensor);
 
-    let tensor=Tensor(ArrayLayout::<4>::with_ndim(0));
+    let tensor = Tensor(ArrayLayout::<4>::with_ndim(0));
     println!("{}", tensor);
-
 }
