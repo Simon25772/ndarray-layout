@@ -4,6 +4,7 @@
 [![Latest version](https://img.shields.io/crates/v/ndarray-layout.svg)](https://crates.io/crates/ndarray-layout)
 [![Documentation](https://docs.rs/ndarray-layout/badge.svg)](https://docs.rs/ndarray-layout)
 [![license](https://img.shields.io/github/license/InfiniTensor/ndarray-layout)](https://mit-license.org/)
+[![codecov](https://codecov.io/github/Simon25772/ndarray-layout/branch/ShenghuSu/graph/badge.svg)](https://codecov.io/github/Simon25772/ndarray-layout/tree/Shenghu)
 ![GitHub repo size](https://img.shields.io/github/repo-size/InfiniTensor/ndarray-layout)
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/InfiniTensor/ndarray-layout)
 
