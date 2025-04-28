@@ -1,4 +1,4 @@
-# ![doc = include_str!("../README.md")]
+#![doc = include_str!("../README.md")]
 #![deny(warnings, missing_docs)]
 
 /// An array layout allow N dimensions inlined.
@@ -40,7 +40,6 @@ impl<const N: usize> Drop for ArrayLayout<N> {
 }
 
 /// 元信息存储顺序。
-
 #[derive(Clone, Copy, PartialEq, Eq, Hash, Debug)]
 
 pub enum Endian {
@@ -59,7 +58,7 @@ impl<const N: usize> ArrayLayout<N> {
     /// assert_eq!(layout.offset(), 20);
     /// assert_eq!(layout.shape(), &[2, 3, 4]);
     /// assert_eq!(layout.strides(), &[12, -4, 1]);
-    ///```
+    /// ```
     pub fn new(shape: &[usize], strides: &[isize], offset: isize) -> Self {
         // check
         assert_eq!(

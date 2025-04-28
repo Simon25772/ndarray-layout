@@ -76,8 +76,19 @@ impl<const N: usize> ArrayLayout<N> {
         let shape = content.shape();
         let strides = content.strides();
 
-        // 修改BUG
-        let merged = args.iter().map(|arg| arg.len.max(1)).sum::<usize>();
+        let (merged, flag) = args.iter().fold((0, true), |(acc, _f), arg| {
+            (
+                acc + arg.len.max(1),
+                match arg.len {
+                    x if x >= 2 => false,
+                    _ => true,
+                },
+            )
+        });
+        // 如果所有arg.len都是0或者1,直接返回原布局
+        if flag {
+            return Some(self.clone());
+        }
         let mut ans = Self::with_ndim(self.ndim + args.len() - merged);
 
         let mut content = ans.content_mut();
@@ -94,7 +105,7 @@ impl<const N: usize> ArrayLayout<N> {
             let &MergeArg { start, len, endian } = arg;
             let end = start + len;
 
-            if len == 0 {
+            if len < 2 {
                 continue;
             }
 
@@ -111,7 +122,6 @@ impl<const N: usize> ArrayLayout<N> {
                 }
             }
 
-            // 修改BUG
             last_end = end;
 
             if pairs.is_empty() {

@@ -18,17 +18,17 @@ ndarray-layout 是一个用于处理多维数组布局的 Rust 库，它提供�
 
 ### 多维数组布局管理
 
-* ArrayLayout 结构体支持指定任意维度的数组布局，通过 new 方法可以创建具有指定形状、步长和偏移量的布局。
-* 提供 new_contiguous 方法，用于创建连续的数组布局，支持大端序（BigEndian）和小端序（LittleEndian）两种存储顺序。
+- ArrayLayout 结构体支持指定任意维度的数组布局，通过 new 方法可以创建具有指定形状、步长和偏移量的布局;
+- 提供 new_contiguous 方法，用于创建连续的数组布局，支持大端序（BigEndian）和小端序（LittleEndian）两种存储顺序;
 
 ### 元信息访问
 
-* 提供便捷的方法来访问数组布局的元信息，如 ndim、offset、shape 和 strides 等。
-* 支持计算数组元素的偏移量和数据范围，方便进行内存访问和数据处理。
+- 提供便捷的方法来访问数组布局的元信息，如 ndim、offset、shape 和 strides 等;
+- 支持计算数组元素的偏移量和数据范围，方便进行内存访问和数据处理;
 
 ### 布局操作功能
 
-* 提供多种布局变换方法，如 index、tile、transpose、merge 和 slice 等，方便对数组布局进行各种变换操作。
+- 提供多种布局变换方法，如 index、tile、transpose、merge 和 slice 等，方便对数组布局进行各种变换操作;
 
 ## 使用示例
 
