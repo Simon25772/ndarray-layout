@@ -51,16 +51,4 @@ let broadcasted_layout = layout.broadcast(0, 4);
 assert_eq!(broadcasted_layout.shape(), &[4, 2, 3]);
 assert_eq!(broadcasted_layout.strides(), &[0, 4, 1]);
 assert_eq!(broadcasted_layout.offset(), 0);
-
-// 一次对多个阶进行广播变换
-let args = [
-    BroadcastArg { axis: 0, times: 4 },
-    BroadcastArg { axis: 1, times: 3 }
-];
-let multi_broadcasted_layout = layout.broadcast_many(&args);
-
-// 验证多次广播变换后的形状和步长
-assert_eq!(multi_broadcasted_layout.shape(), &[4, 3, 3]);
-assert_eq!(multi_broadcasted_layout.strides(), &[0, 0, 1]);
-assert_eq!(multi_broadcasted_layout.offset(), 0);
 ```
