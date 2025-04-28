@@ -77,13 +77,7 @@ impl<const N: usize> ArrayLayout<N> {
         let strides = content.strides();
 
         let (merged, flag) = args.iter().fold((0, true), |(acc, _f), arg| {
-            (
-                acc + arg.len.max(1),
-                match arg.len {
-                    x if x >= 2 => false,
-                    _ => true,
-                },
-            )
+            (acc + arg.len.max(1), !matches!(arg.len, x if x >= 2))
         });
         // 如果所有arg.len都是0或者1,直接返回原布局
         if flag {
