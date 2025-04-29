@@ -89,7 +89,6 @@ impl<const N: usize> ArrayLayout<N> {
 }
 
 #[test]
-
 fn test() {
     const DATA: &[u8] = &[1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
 

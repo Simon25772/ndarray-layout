@@ -41,7 +41,6 @@ impl<const N: usize> Drop for ArrayLayout<N> {
 
 /// 元信息存储顺序。
 #[derive(Clone, Copy, PartialEq, Eq, Hash, Debug)]
-
 pub enum Endian {
     /// 大端序，范围更大的维度在元信息中更靠前的位置。
     BigEndian,

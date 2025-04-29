@@ -3,7 +3,6 @@
 /// 索引变换参数。
 
 #[derive(Clone, PartialEq, Eq, Debug)]
-
 pub struct BroadcastArg {
     /// 广播的轴。
     pub axis: usize,
@@ -39,7 +38,6 @@ impl<const N: usize> ArrayLayout<N> {
 }
 
 #[test]
-
 fn test_broadcast() {
     let layout = ArrayLayout::<3>::new(&[1, 5, 2], &[10, 2, 1], 0).broadcast(0, 10);
     assert_eq!(layout.shape(), &[10, 5, 2]);
