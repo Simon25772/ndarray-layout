@@ -1,6 +1,6 @@
 ﻿use crate::ArrayLayout;
 
-/// 索引变换参数。
+/// 广播变换参数。
 #[derive(Clone, PartialEq, Eq, Debug)]
 pub struct BroadcastArg {
     /// 广播的轴。
