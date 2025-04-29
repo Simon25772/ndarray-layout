@@ -2,7 +2,6 @@
 use std::iter::zip;
 
 /// 索引变换参数。
-
 #[derive(Clone, PartialEq, Eq, Debug)]
 pub struct IndexArg {
     /// 索引的轴。
