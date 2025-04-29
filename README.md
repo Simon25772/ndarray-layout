@@ -36,19 +36,19 @@
 ```rust
 use ndarray_layout::{ArrayLayout, BroadcastArg};
 
-// 创建一个新的 ArrayLayout 实例
-// 形状为 [1, 2, 3]，步长为 [12, 4, 1]，偏移量为 0
+// 创建一个新的 `ArrayLayout` 实例。
+// 形状为 [1, 2, 3]，步长为 [12, 4, 1]，偏移量为 0。
 let layout = ArrayLayout::<3>::new(&[1, 2, 3], &[12, 4, 1], 0);
 
-// 验证初始的形状和步长
+// 验证初始的形状和步长。
 assert_eq!(layout.shape(), &[1, 2, 3]);
 assert_eq!(layout.strides(), &[12, 4, 1]);
 assert_eq!(layout.offset(), 0);
 
-// 对第 0 维进行广播变换，广播次数为 4
+// 对第 0 维进行广播变换，广播次数为 4。
 let broadcasted_layout = layout.broadcast(0, 4);
 
-// 验证广播变换后的形状和步长
+// 验证广播变换后的形状和步长。
 assert_eq!(broadcasted_layout.shape(), &[4, 2, 3]);
 assert_eq!(broadcasted_layout.strides(), &[0, 4, 1]);
 assert_eq!(broadcasted_layout.offset(), 0);

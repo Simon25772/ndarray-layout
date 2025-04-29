@@ -222,7 +222,7 @@ impl<const N: usize> ArrayLayout<N> {
     #[inline]
     fn ptr_allocated(&self) -> Option<NonNull<usize>> {
         const { assert!(N > 0) }
-        // ndim>N则content是ptr,否则是元组
+        // ndim > N 则 content 是 ptr，否则是元组。
         if self.ndim > N {
             Some(unsafe { self.content.ptr })
         } else {
