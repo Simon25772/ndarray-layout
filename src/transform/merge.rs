@@ -76,13 +76,11 @@ impl<const N: usize> ArrayLayout<N> {
         let shape = content.shape();
         let strides = content.strides();
 
-        let (merged, flag) = args.iter().fold((0, true), |(acc, _f), arg| {
-            (acc + arg.len.max(1), !matches!(arg.len, x if x >= 2))
-        });
-        // 如果所有 arg.len 都是 0 或者 1，直接返回原布局。
-        if flag {
+        let merged = args.iter().map(|arg| arg.len.max(1)).sum::<usize>();
+        if merged == args.len() {
             return Some(self.clone());
         }
+
         let mut ans = Self::with_ndim(self.ndim + args.len() - merged);
 
         let mut content = ans.content_mut();
